@@ -9,4 +9,5 @@
   height: 64px; }
 
 .item-box {
-  padding: 16px; }
+  padding: 16px;
+  border-bottom: 1px solid #fff; }
