@@ -1,16 +1,20 @@
 define(['i18n!application/nls/translate',
+        'swal',
         'https://apis.google.com/js/client.js?onload=define'], function(translate) {
 
     'use strict';
 
     function AUTH() {
-
+        this.CONFIG = {
+            url_dao: 'http://127.0.0.1:5000/dao/users/prod/'
+        }
     }
 
     AUTH.prototype.google = function() {
 
-        /* Initiate object. */
+        /* Initiate objects. */
         var auth2 = {};
+        var _this = this;
 
         /* Load Google API. */
         gapi.load('auth2', function(){
@@ -39,7 +43,36 @@ define(['i18n!application/nls/translate',
                         email: googleUser.getBasicProfile().getEmail(),
                         image_url: googleUser.getBasicProfile().getImageUrl()
                     };
-                    console.debug(user);
+
+                    $.ajax({
+
+                        url: _this.CONFIG.url_dao,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: JSON.stringify(user),
+                        contentType: 'application/json',
+
+                        success: function (response) {
+
+                            /* Cast the response to JSON, if needed. */
+                            var json = response;
+                            if (typeof json == 'string')
+                                json = $.parseJSON(response);
+                            console.debug(json);
+
+                        },
+
+                        error: function(e) {
+                            swal({
+                                title: translate.error,
+                                type: 'error',
+                                text: e.statusText + ' (' + e.status + ')',
+                                html: true
+                            });
+                        }
+
+                    });
+
                 },
 
                 /* Error. */
