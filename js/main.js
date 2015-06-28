@@ -3,8 +3,10 @@ require.config({
     baseUrl: 'js/libs',
 
     paths: {
-        APPLICATION: '../js/application',
-        ROUTER: '../js/router'
+        application: '../../',
+        APPLICATION: '../application',
+        router: '../../',
+        ROUTER: '../router'
     },
 
     shim: {
