@@ -32,10 +32,6 @@ define(['i18n!application/nls/translate',
                 /* Success. */
                 function(googleUser) {
 
-                    /* Show user name and image. */
-                    $('#logo_image').attr('src', googleUser.getBasicProfile().getImageUrl());
-                    $('#logo_welcome_message').html(translate.welcome + googleUser.getBasicProfile().getName() + '!');
-
                     /* Create user object. */
                     var user = {
                         user_id: googleUser.getBasicProfile().getId(),
@@ -58,7 +54,12 @@ define(['i18n!application/nls/translate',
                             var json = response;
                             if (typeof json == 'string')
                                 json = $.parseJSON(response);
-                            console.debug(json);
+
+                            /* Show user name and image. */
+                            $('#logo_image').attr('src', googleUser.getBasicProfile().getImageUrl());
+                            $('#logo_welcome_message').html(translate.welcome +
+                                                            googleUser.getBasicProfile().getName() +
+                                                            '!<br><small>[' + json._id.$oid + ']</small>');
 
                         },
 
