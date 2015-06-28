@@ -58,13 +58,13 @@ define(['i18n!application/nls/translate',
                             /* Show user name and image. */
                             $('#logo_image').attr('src', googleUser.getBasicProfile().getImageUrl());
                             $('#logo_welcome_message').html(translate.welcome +
-                                                            googleUser.getBasicProfile().getName() +
-                                                            '!<br><small>[' + json._id.$oid + ']</small>');
+                                                            googleUser.getBasicProfile().getName() + '!' +
+                                                            '<br><small>[' + json._id.$oid + ']</small>');
 
                         },
 
                         error: function(e) {
-                            swal({
+                           swal({
                                 title: translate.error,
                                 type: 'error',
                                 text: e.statusText + ' (' + e.status + ')',
