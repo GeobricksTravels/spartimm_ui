@@ -39,6 +39,11 @@ define(['jquery',
         /* Load Google sign-in. */
         AUTH.google();
 
+        /* Load Facebook sign-in. */
+        $('#facebook_login').click(function() {
+            AUTH.facebook();
+        });
+
     };
 
     return APP;

@@ -8,7 +8,8 @@ require.config({
         auth: '../../',
         AUTH: '../auth',
         router: '../../',
-        ROUTER: '../router'
+        ROUTER: '../router',
+        facebook: '//connect.facebook.net/en_US/sdk'
     },
 
     shim: {
@@ -20,6 +21,9 @@ require.config({
         highcharts: ['jquery'],
         underscore: {
             exports: '_'
+        },
+        facebook : {
+            exports: 'FB'
         }
     }
 
