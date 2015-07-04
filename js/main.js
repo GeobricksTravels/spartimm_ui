@@ -1,14 +1,20 @@
+var root = '../../submodules/';
+
 require.config({
 
     baseUrl: 'js/libs',
 
     paths: {
-        application: '../../',
-        APPLICATION: '../application',
-        auth: '../../',
-        AUTH: '../auth',
-        router: '../../',
-        ROUTER: '../router',
+
+        application: root + '../',
+        APPLICATION: root + '../js/application',
+
+        auth: root + 'auth',
+        AUTH: root + 'auth/js/auth',
+
+        router: root + '../',
+        ROUTER: root + '../js/router',
+
         facebook: '//connect.facebook.net/en_US/sdk'
     },
 
