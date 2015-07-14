@@ -6,7 +6,8 @@ define({
         welcome: 'Welcome ',
         events_label: 'Events',
         ongoing_label: 'ongoing',
-        finished_label: 'finished'
+        finished_label: 'finished',
+        activities_label: 'Activities'
     },
     es : true,
     it : true

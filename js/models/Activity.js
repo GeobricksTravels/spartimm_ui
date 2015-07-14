@@ -1,21 +1,28 @@
-define(['jquery', 'backbone'], function ($, Backbone) {
+define(function (require) {
 
         'use strict';
 
-        var Activity;
-        Activity = Backbone.Model.extend({
+        var Backbone = require('backbone');
 
-            initialize: function () {
+        return Backbone.Model.extend({
+
+            urlRoot: 'http://127.0.0.1:5000/dao/activities/',
+
+            url : function() {
+                return this.urlRoot + this.attributes.event_id + '/prod/';
+            },
+
+            initialize: function (attributes, options) {
 
             },
 
             defaults: {
-                label: null,
-                location: null,
-                photos: [],
+                _id: null,
+                event_id: null,
                 users: [],
-                quantity: 1,
-                price: null
+                name: null,
+                location: null,
+                total: null
             },
 
             validate: function (attrs) {
@@ -23,8 +30,6 @@ define(['jquery', 'backbone'], function ($, Backbone) {
             }
 
         });
-
-        return Activity;
 
     }
 

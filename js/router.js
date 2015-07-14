@@ -3,7 +3,9 @@ define(['jquery',
         'AUTH',
         'models/Event',
         'views/EventView',
-        'domReady!'], function($, Backbone, AUTH, Event, EventView) {
+        'models/Activity',
+        'views/ActivityView',
+        'domReady!'], function($, Backbone, AUTH, Event, EventView, Activity, ActivityView) {
 
     'use strict';
 
@@ -32,9 +34,10 @@ define(['jquery',
 
             /* Define the routes. */
             routes: {
-                ''                      :   'home',
-                '(/):lang(/)'           :   'home',
-                '(/):lang(/)events(/)'  :   'events'
+                ''                                      :   'home',
+                '(/):lang(/)'                           :   'home',
+                '(/):lang(/)events(/)'                  :   'events',
+                '(/):lang(/)activities(/):event_id(/)'  :   'activities'
             },
 
             /* Overwrite language settings. */
@@ -90,6 +93,29 @@ define(['jquery',
             new Event().fetch({
                 success: function (data) {
                     var view = new EventView({model: data.toJSON(), el: $('#placeholder')});
+                    view.render();
+                }
+            });
+
+        });
+
+        /* Activities. */
+        app_router.on('route:activities', function (lang, event_id) {
+
+            /* Set default language. */
+            lang = lang != null ? lang : _this.CONFIG.lang;
+
+            /* Setup language. */
+            this.init_language(lang);
+
+            /* Display events. */
+            new Activity({event_id: event_id}).fetch({
+                success: function (data) {
+                    var view = new ActivityView({
+                        model: data.toJSON(),
+                        id: event_id,
+                        el: $('#placeholder')
+                    });
                     view.render();
                 }
             });
