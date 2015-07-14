@@ -1,0 +1,38 @@
+<script type='text/x-handlebars-template' id='login_structure'>
+    <div class='container'>
+        <br><br>
+        <div class='row'>
+            <div class='col-xs-12'>
+                <div>
+                    <img id='logo_image' src='images/unknown_user.png' class='logo img-responsive img-circle'>
+                </div>
+            </div>
+            <div class='col-xs-12'>
+                <h4 id='logo_welcome_message' class='text-center'>
+
+                </h4>
+            </div>
+        </div>
+    </div>
+    <footer style='position: absolute; bottom: 0; width: 100%;'>
+        <div class='container'>
+            <hr>
+            <div class='row'>
+                <div class='col-xs-12'>
+                    <button class='btn btn-default btn-lg' id='facebook_login' style='width: 100%; background-color: #3b5998; color: #fff;'>
+                        <i class='fa fa-facebook-square'></i> {{facebook_login_label}}
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class='row'>
+                <div class='col-xs-12'>
+                    <button class='btn btn-default btn-lg' id='google_login' style='width: 100%; background-color: #d34836; color: #fff;'>
+                        <i class='fa fa-google-plus-square'></i> {{google_login_label}}
+                    </button>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </footer>
+</script>

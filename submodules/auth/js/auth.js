@@ -1,15 +1,54 @@
-define(['i18n!application/nls/translate',
+define(['jquery',
+        'handlebars',
+        'text!auth/html/templates.hbs',
+        'i18n!auth/nls/translate',
         'facebook',
         'swal',
-        'https://apis.google.com/js/client.js?onload=define'], function(translate) {
+        'https://apis.google.com/js/client.js?onload=define'], function($, Handlebars, templates, translate) {
 
     'use strict';
 
     function AUTH() {
         this.CONFIG = {
+            user_id: null,
+            create_user_success: null,
+            placeholder_id: null,
             url_dao: 'http://127.0.0.1:5000/dao/users/prod/'
         }
     }
+
+    AUTH.prototype.init = function(config) {
+
+        /* Extend default configuration. */
+        this.CONFIG = $.extend(true, {}, this.CONFIG, config);
+
+        /* Display login options if the user is not logged in. */
+        if (this.CONFIG.user_id == null) {
+
+            /* This... */
+            var _this = this;
+
+            /* Load sign-in page. */
+            var source = $(templates).filter('#login_structure').html();
+            var template = Handlebars.compile(source);
+            var dynamic_data = {
+                facebook_login_label: translate.facebook_login_label,
+                google_login_label: translate.google_login_label
+            };
+            var html = template(dynamic_data);
+            $('#' + this.CONFIG.placeholder_id).html(html);
+
+            /* Load Google sign-in. */
+            this.google();
+
+            /* Load Facebook sign-in. */
+            $('#facebook_login').click(function () {
+                _this.facebook();
+            });
+
+        }
+
+    };
 
     AUTH.prototype.facebook = function() {
         var _this = this;
@@ -64,20 +103,7 @@ define(['i18n!application/nls/translate',
             data: JSON.stringify(user),
             contentType: 'application/json',
 
-            success: function (response) {
-
-                /* Cast the response to JSON, if needed. */
-                var json = response;
-                if (typeof json == 'string')
-                    json = $.parseJSON(response);
-
-                /* Show user name and image. */
-                $('#logo_image').attr('src', user.image_url);
-                $('#logo_welcome_message').html(translate.welcome +
-                                                user.name + '!' +
-                                                '<br><small>[' + json._id.$oid + ']</small>');
-
-            },
+            success: this.CONFIG.create_user_success,
 
             error: function(e) {
                 swal({
@@ -96,46 +122,55 @@ define(['i18n!application/nls/translate',
 
         /* Initiate objects. */
         var auth2 = {};
+        var client_id = '434353927155-kfl4co4ijbn18mesrpom116cikeq9339.apps.googleusercontent.com';
+        var scope = 'https://www.googleapis.com/auth/plus.login';
         var _this = this;
 
         /* Load Google API. */
-        gapi.load('auth2', function(){
-
-            /* Initiate API. */
-            auth2 = gapi.auth2.init({
-                client_id: '434353927155-kfl4co4ijbn18mesrpom116cikeq9339.apps.googleusercontent.com',
-                cookiepolicy: 'single_host_origin',
-                scope:'https://www.googleapis.com/auth/plus.login'
+        gapi.load('auth2', function() {
+            $('#google_login').click(function() {
+                gapi.auth.authorize({
+                    client_id: client_id,
+                    scope: scope,
+                    immediate: true
+                }, function(result) {
+                    if (result && !result.error) {
+                        gapi.client.load('plus', 'v1', function() {
+                            var request = gapi.client.plus.people.get({
+                                'userId': 'me'
+                            });
+                            request.execute(function(googleUser) {
+                                var user = {
+                                    user_id: googleUser.id,
+                                    name: googleUser.displayName,
+                                    email: googleUser.emails[0].value,
+                                    image_url: googleUser.image.url
+                                };
+                                _this.create_user(user);
+                            });
+                        });
+                    } else {
+                        gapi.client.load('plus', 'v1', function() {
+                            var request = gapi.client.plus.people.get({
+                                'userId': 'me'
+                            });
+                            request.execute(function(googleUser) {
+                                var user = {
+                                    user_id: googleUser.id,
+                                    name: googleUser.displayName,
+                                    email: googleUser.emails[0].value,
+                                    image_url: googleUser.image.url
+                                };
+                                _this.create_user(user);
+                            });
+                        });
+                    }
+                });
             });
-
-            /* Implement click listener. */
-            auth2.attachClickHandler(document.getElementById('google_login'), {},
-
-                /* Success. */
-                function(googleUser) {
-
-                    /* Create user object. */
-                    var user = {
-                        user_id: googleUser.getBasicProfile().getId(),
-                        name: googleUser.getBasicProfile().getName(),
-                        email: googleUser.getBasicProfile().getEmail(),
-                        image_url: googleUser.getBasicProfile().getImageUrl()
-                    };
-                    _this.create_user(user);
-
-                },
-
-                /* Error. */
-                function(error) {
-                    alert(JSON.stringify(error, undefined, 2));
-                }
-
-            );
-
         });
 
     };
 
-    return new AUTH();
+    return AUTH;
 
 });

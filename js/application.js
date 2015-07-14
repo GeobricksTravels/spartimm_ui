@@ -12,7 +12,9 @@ define(['jquery',
 
         this.CONFIG = {
             lang: 'en',
-            placeholder_id: 'placeholder'
+            user_id: null,
+            placeholder_id: 'placeholder',
+            url_dao: 'http://127.0.0.1:5000/dao/users/prod/'
         }
 
     }
@@ -26,22 +28,49 @@ define(['jquery',
         var router = new ROUTER();
         router.init({});
 
-        /* Load sign-in page. */
-        var source = $(templates).filter('#login_structure').html();
-        var template = Handlebars.compile(source);
-        var dynamic_data = {
-            facebook_login_label: translate.facebook_login_label,
-            google_login_label: translate.google_login_label
-        };
-        var html = template(dynamic_data);
-        $('#' + this.CONFIG.placeholder_id).html(html);
+        /* Initiate the authentication. */
+        var auth = new AUTH();
+        auth.init({
+            create_user: this.create_user,
+            placeholder_id: this.CONFIG.placeholder_id
+        });
 
-        /* Load Google sign-in. */
-        AUTH.google();
+    };
 
-        /* Load Facebook sign-in. */
-        $('#facebook_login').click(function() {
-            AUTH.facebook();
+    APP.prototype.create_user = function(user) {
+
+        $.ajax({
+
+            url: this.CONFIG.url_dao,
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(user),
+            contentType: 'application/json',
+
+            success: function (response) {
+
+                /* Cast the response to JSON, if needed. */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                /* Show user name and image. */
+                $('#logo_image').attr('src', user.image_url);
+                $('#logo_welcome_message').html(translate.welcome +
+                    user.name + '!' +
+                    '<br><small>[' + json._id.$oid + ']</small>');
+
+            },
+
+            error: function(e) {
+                swal({
+                    title: translate.error,
+                    type: 'error',
+                    text: e.statusText + ' (' + e.status + ')',
+                    html: true
+                });
+            }
+
         });
 
     };
