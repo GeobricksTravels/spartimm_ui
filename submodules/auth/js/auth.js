@@ -4,6 +4,7 @@ define(['jquery',
         'i18n!auth/nls/translate',
         'facebook',
         'swal',
+        'amplify',
         'https://apis.google.com/js/client.js?onload=define'], function($, Handlebars, templates, translate) {
 
     'use strict';
@@ -22,31 +23,26 @@ define(['jquery',
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
-        /* Display login options if the user is not logged in. */
-        if (this.CONFIG.user_id == null) {
+        /* This... */
+        var _this = this;
 
-            /* This... */
-            var _this = this;
+        /* Load sign-in page. */
+        var source = $(templates).filter('#login_structure').html();
+        var template = Handlebars.compile(source);
+        var dynamic_data = {
+            facebook_login_label: translate.facebook_login_label,
+            google_login_label: translate.google_login_label
+        };
+        var html = template(dynamic_data);
+        $('#' + this.CONFIG.placeholder_id).html(html);
 
-            /* Load sign-in page. */
-            var source = $(templates).filter('#login_structure').html();
-            var template = Handlebars.compile(source);
-            var dynamic_data = {
-                facebook_login_label: translate.facebook_login_label,
-                google_login_label: translate.google_login_label
-            };
-            var html = template(dynamic_data);
-            $('#' + this.CONFIG.placeholder_id).html(html);
+        /* Load Google sign-in. */
+        this.google();
 
-            /* Load Google sign-in. */
-            this.google();
-
-            /* Load Facebook sign-in. */
-            $('#facebook_login').click(function () {
-                _this.facebook();
-            });
-
-        }
+        /* Load Facebook sign-in. */
+        $('#facebook_login').click(function () {
+            _this.facebook();
+        });
 
     };
 
@@ -94,28 +90,7 @@ define(['jquery',
     };
 
     AUTH.prototype.create_user = function(user) {
-
-        $.ajax({
-
-            url: this.CONFIG.url_dao,
-            type: 'POST',
-            dataType: 'json',
-            data: JSON.stringify(user),
-            contentType: 'application/json',
-
-            success: this.CONFIG.create_user_success,
-
-            error: function(e) {
-                swal({
-                    title: translate.error,
-                    type: 'error',
-                    text: e.statusText + ' (' + e.status + ')',
-                    html: true
-                });
-            }
-
-        });
-
+        amplify.publish('user', {user: user});
     };
 
     AUTH.prototype.google = function() {

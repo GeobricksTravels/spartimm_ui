@@ -4,6 +4,7 @@ define(['jquery',
         'i18n!application/nls/translate',
         'AUTH',
         'ROUTER',
+        'amplify',
         'domReady!'], function($, Handlebars, templates, translate, AUTH, ROUTER) {
 
     'use strict';
@@ -29,47 +30,63 @@ define(['jquery',
         router.init({});
 
         /* Initiate the authentication. */
-        var auth = new AUTH();
-        auth.init({
-            create_user: this.create_user,
-            placeholder_id: this.CONFIG.placeholder_id
-        });
+        console.debug(this.CONFIG.user_id);
+        if (this.CONFIG.user_id == null) {
+            var auth = new AUTH();
+            auth.init({
+                create_user: this.create_user,
+                placeholder_id: this.CONFIG.placeholder_id
+            });
+        }
+
+        /* Handle user creation. */
+        this.create_user();
 
     };
 
-    APP.prototype.create_user = function(user) {
+    APP.prototype.create_user = function() {
 
-        $.ajax({
+        /* This... */
+        var _this = this;
 
-            url: this.CONFIG.url_dao,
-            type: 'POST',
-            dataType: 'json',
-            data: JSON.stringify(user),
-            contentType: 'application/json',
+        amplify.subscribe('user', function(data) {
 
-            success: function (response) {
+            $.ajax({
 
-                /* Cast the response to JSON, if needed. */
-                var json = response;
-                if (typeof json == 'string')
-                    json = $.parseJSON(response);
+                url: _this.CONFIG.url_dao,
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data.user),
+                contentType: 'application/json',
 
-                /* Show user name and image. */
-                $('#logo_image').attr('src', user.image_url);
-                $('#logo_welcome_message').html(translate.welcome +
-                    user.name + '!' +
-                    '<br><small>[' + json._id.$oid + ']</small>');
+                success: function(response) {
 
-            },
+                    /* Cast the response to JSON, if needed. */
+                    var json = response;
+                    if (typeof json == 'string')
+                        json = $.parseJSON(response);
 
-            error: function(e) {
-                swal({
-                    title: translate.error,
-                    type: 'error',
-                    text: e.statusText + ' (' + e.status + ')',
-                    html: true
-                });
-            }
+                    /* Show user name and image. */
+                    $('#logo_image').attr('src', data.user.image_url);
+                    $('#logo_welcome_message').html(translate.welcome +
+                        data.user.name + '!' +
+                        '<br><small>[' + json._id.$oid + ']</small>');
+
+                    /* Store user id. */
+                    _this.CONFIG.user_id = json._id.$oid;
+
+                },
+
+                error: function (e) {
+                    swal({
+                        title: translate.error,
+                        type: 'error',
+                        text: e.statusText + ' (' + e.status + ')',
+                        html: true
+                    });
+                }
+
+            });
 
         });
 

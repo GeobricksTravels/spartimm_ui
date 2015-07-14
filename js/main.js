@@ -19,6 +19,7 @@ require.config({
     },
 
     shim: {
+        amplify: ['jquery'],
         bootstrap: ['jquery'],
         backbone: {
             deps: ['jquery', 'underscore'],
