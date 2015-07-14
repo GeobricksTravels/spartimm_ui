@@ -59,10 +59,17 @@
                         <div class='col-xs-8'>
                             <div class='pull-right' style='line-height: 24px;'>
                                 <!-- http://www.bootply.com/92189 -->
-                                <div class='btn-group btn-toggle'>
-                                    <button class='btn btn-xs btn-success active'>ongoing</button>
-                                    <button class='btn btn-xs btn-default'>finished</button>
-                                </div>
+                                {{#if this.status}}
+                                    <div class='btn-group btn-toggle'>
+                                        <button class='btn btn-xs btn-success active'>ongoing</button>
+                                        <button class='btn btn-xs btn-default'>finished</button>
+                                    </div>
+                                {{else}}
+                                    <div class='btn-group btn-toggle'>
+                                        <button class='btn btn-xs btn-default'>ongoing</button>
+                                        <button class='btn btn-xs btn-danger active'>finished</button>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
