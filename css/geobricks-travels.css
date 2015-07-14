@@ -31,3 +31,14 @@
 
 .affix-top {
   position: static; }
+
+.events-header {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 8px;
+  line-height: 14px; }
+
+.user-footer {
+  height: 24px;
+  width: 24px;
+  float: right; }

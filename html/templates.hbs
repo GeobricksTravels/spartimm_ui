@@ -1,27 +1,24 @@
 <script type='text/x-handlebars-template' id='event_header'>
-    <div style='background-color: #337ab7; color: #fff; padding: 8px;'>
-        <div id='events_header' class='affix'>
-            <div class='row'>
-                <div class='col-xs-2'>
-                    <div class='pull-left'>
-                        <i class='fa fa-plus'></i>
-                    </div>
+    <div class='events-header affix'>
+        <div class='row'>
+            <div class='col-xs-2'>
+                <div class='pull-left'>
+                    <i class='fa fa-plus'></i>
                 </div>
-                <div class='col-xs-8'>
-                    <div class='text-center'>
-                        Events
-                    </div>
+            </div>
+            <div class='col-xs-8'>
+                <div class='text-center'>
+                    {{events_label}}
                 </div>
-                <div class='col-xs-2'>
-                    <div class='pull-right'>
-                        <i class='fa fa-trash-o'></i>
-                    </div>
+            </div>
+            <div class='col-xs-2'>
+                <div class='pull-right'>
+                    <i class='fa fa-trash-o'></i>
                 </div>
             </div>
         </div>
     </div>
-    <br>
-    <br>
+    <br><br><br>
 </script>
 
 <script type='text/x-handlebars-template' id='event_structure'>
@@ -54,7 +51,7 @@
                         <div class='col-xs-4'>
                             <div class='pull-left'>
                                 {{#each this.users}}
-                                    <img src='{{this.image_url}}' class='img-responsive img-circle' style='height: 24px; width: 24px; float: right;'>
+                                    <img src='{{this.image_url}}' class='img-responsive img-circle user-footer'>
                                 {{/each}}
                             </div>
                         </div>

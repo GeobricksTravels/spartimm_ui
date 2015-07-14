@@ -23,7 +23,7 @@ define(function (require) {
             var source = $(templates).filter('#event_header').html();
             var template = Handlebars.compile(source);
             var dynamic_data = {
-                events: events
+                events_label: translate.events_label
             };
             var html = template(dynamic_data);
             this.$el.append(html);
