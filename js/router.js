@@ -1,7 +1,9 @@
 define(['jquery',
         'backbone',
         'AUTH',
-        'domReady!'], function($, Backbone, AUTH) {
+        'models/Event',
+        'views/EventView',
+        'domReady!'], function($, Backbone, AUTH, Event, EventView) {
 
     'use strict';
 
@@ -83,6 +85,17 @@ define(['jquery',
 
             /* Setup language. */
             this.init_language(lang);
+
+            var event = new Event();
+            event.fetch({
+                success: function (data) {
+
+                    console.debug(data.toJSON());
+
+                    var view = new EventView({model: data.toJSON(), el: $('#placeholder')});
+                    view.render();
+                }
+            });
 
         });
 

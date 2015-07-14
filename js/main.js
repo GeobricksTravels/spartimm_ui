@@ -15,6 +15,9 @@ require.config({
         router: root + '../',
         ROUTER: root + '../js/router',
 
+        models: root + '../js/models',
+        views: root + '../js/views',
+
         facebook: '//connect.facebook.net/en_US/sdk'
     },
 
