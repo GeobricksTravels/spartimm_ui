@@ -18,6 +18,15 @@ define(function (require) {
 
         render: function() {
 
+            /* Load header. */
+            var source = $(templates).filter('#event_header').html();
+            var template = Handlebars.compile(source);
+            var dynamic_data = {
+                events: events
+            };
+            var html = template(dynamic_data);
+            this.$el.append(html);
+
             /* Prepare data for Handlebars. */
             var events = [];
             for (var key in Object.keys(this.model)) {
@@ -26,14 +35,15 @@ define(function (require) {
             }
 
             /* Load sign-in page. */
-            var source = $(templates).filter('#event_structure').html();
-            var template = Handlebars.compile(source);
-            var dynamic_data = {
+            source = $(templates).filter('#event_structure').html();
+            template = Handlebars.compile(source);
+            dynamic_data = {
                 events: events
             };
-            var html = template(dynamic_data);
-            this.$el.html(html);
+            html = template(dynamic_data);
+            this.$el.append(html);
 
+            /* Return... */
             return this;
 
         }
