@@ -30,7 +30,6 @@ define(['jquery',
         router.init({});
 
         /* Initiate the authentication. */
-        console.debug(document.cookie);
         if (document.cookie.indexOf('user_id') < 0) {
             var auth = new AUTH();
             auth.init({
@@ -73,8 +72,9 @@ define(['jquery',
                         '<br><small>[' + json._id.$oid + ']</small>');
 
                     /* Store user id. */
-                    _this.CONFIG.user_id = json._id.$oid;
-                    document.cookie='user_id=' + json._id.$oid;
+                    var d = new Date();
+                    d.setTime(d.getTime() + 180000);
+                    document.cookie='user_id=' + json._id.$oid + '; expires=' + d.toUTCString() + ';';
 
                 },
 
