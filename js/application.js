@@ -30,8 +30,8 @@ define(['jquery',
         router.init({});
 
         /* Initiate the authentication. */
-        console.debug(this.CONFIG.user_id);
-        if (this.CONFIG.user_id == null) {
+        console.debug(document.cookie);
+        if (document.cookie.indexOf('user_id') < 0) {
             var auth = new AUTH();
             auth.init({
                 create_user: this.create_user,
@@ -74,6 +74,7 @@ define(['jquery',
 
                     /* Store user id. */
                     _this.CONFIG.user_id = json._id.$oid;
+                    document.cookie='user_id=' + json._id.$oid;
 
                 },
 
