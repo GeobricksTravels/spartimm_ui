@@ -119,9 +119,9 @@
                         </div>
                     </div>
                 </div>
-                <div class='panel-body' style='position: relative; top: 0px; background-image: url("images/card.jpg"); background-size: cover; -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))'>
+                <div class='panel-body activity-panel'>
                     <div class='text-center'>
-                        <h1 style='font-size: 75px; z-index: 100; color: #fff; font-weight: 900; -webkit-text-fill-color: white; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black;'>
+                        <h1 class='activity-total'>
                             {{this.total}} &euro;
                         </h1>
                     </div>
@@ -129,14 +129,14 @@
                 <div class='panel-footer'>
                     <div class='row'>
                         <div class='col-xs-6'>
-                            <div style='width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 24px; text-size: 24px;'>
+                            <div class='activity-location'>
                                 <i class='fa fa-map-marker' style='color: #d34836;'></i> {{this.location}}
                             </div>
                         </div>
                         <div class='col-xs-6'>
                             <div class='pull-right'>
                                 {{#each this.users}}
-                                    <img src='{{this.image_url}}' class='img-responsive img-circle' style='height: 24px; width: 24px; float: right;'>
+                                    <img src='{{this.image_url}}' class='img-responsive img-circle activity-user'>
                                 {{/each}}
                             </div>
                         </div>
