@@ -51,9 +51,9 @@
                     <div class='row'>
                         <div class='col-xs-4'>
                             <div class='pull-left'>
-                                <img src='images/avatar-0.jpg' class='img-responsive img-circle' style='height: 24px; width: 24px; float: right;'>
-                                <img src='images/avatar-1.jpg' class='img-responsive img-circle' style='height: 24px; width: 24px; float: right;'>
-                                <img src='images/avatar-3.jpg' class='img-responsive img-circle' style='height: 24px; width: 24px; float: right;'>
+                                {{#each this.users}}
+                                    <img src='{{this.image_url}}' class='img-responsive img-circle' style='height: 24px; width: 24px; float: right;'>
+                                {{/each}}
                             </div>
                         </div>
                         <div class='col-xs-8'>

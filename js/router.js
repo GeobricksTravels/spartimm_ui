@@ -72,7 +72,7 @@ define(['jquery',
             auth.init({
                 lang: _this.CONFIG.lang,
                 placeholder_id: _this.CONFIG.placeholder_id,
-                url_dao: 'http://127.0.0.1:5000/dao/users/prod/'
+                url_dao: _this.CONFIG.url_dao
             });
 
         });
@@ -86,12 +86,9 @@ define(['jquery',
             /* Setup language. */
             this.init_language(lang);
 
-            var event = new Event();
-            event.fetch({
+            /* Display events. */
+            new Event().fetch({
                 success: function (data) {
-
-                    console.debug(data.toJSON());
-
                     var view = new EventView({model: data.toJSON(), el: $('#placeholder')});
                     view.render();
                 }
