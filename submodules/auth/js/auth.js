@@ -1,16 +1,22 @@
 define(['jquery',
+        'backbone',
         'handlebars',
         'text!auth/html/templates.hbs',
         'i18n!auth/nls/translate',
         'facebook',
         'swal',
         'amplify',
-        'https://apis.google.com/js/client.js?onload=define'], function($, Handlebars, templates, translate) {
+        'https://apis.google.com/js/client.js?onload=define'], function($,
+                                                                        Backbone,
+                                                                        Handlebars,
+                                                                        templates,
+                                                                        translate) {
 
     'use strict';
 
     function AUTH() {
         this.CONFIG = {
+            lang: null,
             user_id: null,
             create_user_success: null,
             placeholder_id: null,
@@ -23,25 +29,88 @@ define(['jquery',
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
+        /* Check whether the user is already logged in. */
+        if (document.cookie.indexOf('user_id') < 0) {
+
+            /* This... */
+            var _this = this;
+
+            /* Load sign-in page. */
+            var source = $(templates).filter('#login_structure').html();
+            var template = Handlebars.compile(source);
+            var dynamic_data = {
+                facebook_login_label: translate.facebook_login_label,
+                google_login_label: translate.google_login_label
+            };
+            var html = template(dynamic_data);
+            $('#' + this.CONFIG.placeholder_id).html(html);
+
+            /* Load Google sign-in. */
+            this.google();
+
+            /* Load Facebook sign-in. */
+            $('#facebook_login').click(function () {
+                _this.facebook();
+            });
+
+        }
+
+        /* Re-route the application otherwise. */
+        else {
+
+            /* Re-route the application. */
+            var url = '/' + this.CONFIG.lang + '/events/';
+            Backbone.history.navigate(url, {trigger: false});
+
+        }
+
+    };
+
+    AUTH.prototype.create_user = function(user) {
+
         /* This... */
         var _this = this;
 
-        /* Load sign-in page. */
-        var source = $(templates).filter('#login_structure').html();
-        var template = Handlebars.compile(source);
-        var dynamic_data = {
-            facebook_login_label: translate.facebook_login_label,
-            google_login_label: translate.google_login_label
-        };
-        var html = template(dynamic_data);
-        $('#' + this.CONFIG.placeholder_id).html(html);
+        $.ajax({
 
-        /* Load Google sign-in. */
-        this.google();
+            url: _this.CONFIG.url_dao,
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(user),
+            contentType: 'application/json',
 
-        /* Load Facebook sign-in. */
-        $('#facebook_login').click(function () {
-            _this.facebook();
+            success: function(response) {
+
+                /* Cast the response to JSON, if needed. */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                /* Show user name and image. */
+                $('#logo_image').attr('src', user.image_url);
+                $('#logo_welcome_message').html(translate.welcome +
+                                                user.name + '!' +
+                                                '<br><small>[' + json._id.$oid + ']</small>');
+
+                /* Store user id. */
+                var d = new Date();
+                d.setTime(d.getTime() + 180000);
+                document.cookie='user_id=' + json._id.$oid + '; expires=' + d.toUTCString() + ';';
+
+                /* Re-route the application. */
+                Backbone.history.navigate('/' + _this.CONFIG.lang + '/events/', {trigger: false});
+
+            },
+
+            error: function (e) {
+                swal({
+                    title: translate.error,
+                    type: 'error',
+                    text: e.statusText + ' (' + e.status + ')',
+                    html: true
+                });
+            }
+
         });
 
     };
@@ -87,10 +156,6 @@ define(['jquery',
                 }
             );
         });
-    };
-
-    AUTH.prototype.create_user = function(user) {
-        amplify.publish('user', {user: user});
     };
 
     AUTH.prototype.google = function() {

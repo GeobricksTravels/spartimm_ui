@@ -29,18 +29,6 @@ define(['jquery',
         var router = new ROUTER();
         router.init({});
 
-        /* Initiate the authentication. */
-        if (document.cookie.indexOf('user_id') < 0) {
-            var auth = new AUTH();
-            auth.init({
-                create_user: this.create_user,
-                placeholder_id: this.CONFIG.placeholder_id
-            });
-        }
-
-        /* Handle user creation. */
-        this.create_user();
-
     };
 
     APP.prototype.create_user = function() {
