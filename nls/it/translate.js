@@ -1,3 +1,5 @@
 define({
-    events_label: 'Eventi'
+    events_label: 'Eventi',
+    ongoing_label: 'in corso',
+    finished_label: 'finito'
 });

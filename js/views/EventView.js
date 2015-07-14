@@ -46,7 +46,9 @@ define(function (require) {
             source = $(templates).filter('#event_structure').html();
             template = Handlebars.compile(source);
             dynamic_data = {
-                events: events
+                events: events,
+                ongoing_label: translate.ongoing_label,
+                finished_label: translate.finished_label
             };
             html = template(dynamic_data);
             this.$el.append(html);

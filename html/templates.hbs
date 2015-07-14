@@ -60,13 +60,13 @@
                                 <!-- http://www.bootply.com/92189 -->
                                 {{#if this.status}}
                                     <div class='btn-group btn-toggle'>
-                                        <button class='btn btn-xs btn-success active'>ongoing</button>
-                                        <button class='btn btn-xs btn-default'>finished</button>
+                                        <button class='btn btn-xs btn-success active'>{{../../ongoing_label}}</button>
+                                        <button class='btn btn-xs btn-default'>{{../../finished_label}}</button>
                                     </div>
                                 {{else}}
                                     <div class='btn-group btn-toggle'>
-                                        <button class='btn btn-xs btn-default'>ongoing</button>
-                                        <button class='btn btn-xs btn-danger active'>finished</button>
+                                        <button class='btn btn-xs btn-default'>{{../../ongoing_label}}</button>
+                                        <button class='btn btn-xs btn-danger active'>{{../../finished_label}}</button>
                                     </div>
                                 {{/if}}
                             </div>
