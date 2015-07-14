@@ -86,12 +86,6 @@ define(['jquery',
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
 
-                /* Show user name and image. */
-                $('#logo_image').attr('src', user.image_url);
-                $('#logo_welcome_message').html(translate.welcome +
-                                                user.name + '!' +
-                                                '<br><small>[' + json._id.$oid + ']</small>');
-
                 /* Store user id. */
                 var d = new Date();
                 d.setTime(d.getTime() + 180000);
