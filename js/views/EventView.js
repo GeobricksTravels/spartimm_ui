@@ -4,6 +4,7 @@ define(function (require) {
 
     var $ = require('jquery');
     var Backbone = require('backbone');
+    var Bootstrap = require('bootstrap');
     var Handlebars = require('handlebars');
     var translate = require('i18n!application/nls/translate');
     var templates = require('text!application/html/templates.hbs');
@@ -26,6 +27,13 @@ define(function (require) {
             };
             var html = template(dynamic_data);
             this.$el.append(html);
+
+            /* make the header sticky. */
+            $('#event_header').affix({
+                offset: {
+                    top: 0
+                }
+            });
 
             /* Prepare data for Handlebars. */
             var events = [];

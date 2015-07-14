@@ -16,3 +16,18 @@
   width: 64px;
   height: 64px;
   margin: 0 auto; }
+
+.affix {
+  top: 0;
+  left: 0;
+  padding: 10px;
+  position: fixed;
+  background-color: #337ab7;
+  color: #fff;
+  z-index: 999;
+  width: 100% !important; }
+  .affix h3 {
+    color: #fff; }
+
+.affix-top {
+  position: static; }
