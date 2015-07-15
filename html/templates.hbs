@@ -3,7 +3,7 @@
         <div class='row'>
             <div class='col-xs-2'>
                 <div class='pull-left'>
-                    <i class='fa fa-plus'></i>
+                    <i class='fa fa-plus' id='add_event_button'></i>
                 </div>
             </div>
             <div class='col-xs-8'>
@@ -75,6 +75,51 @@
                 </div>
             </div>
         {{/each}}
+    </div>
+</script>
+
+<script type='text/x-handlebars-template' id='event_structure_edit'>
+    <div class='container'>
+        <form>
+            <div class='panel panel-primary'>
+                <div class='panel-heading'>
+                    <div class='row'>
+                        <div class='col-xs-12'>
+                            <input class='form-control' placeholder='Event Name' style='width: 100%;'>
+                        </div>
+                    </div>
+                </div>
+                <div class='panel-body'>
+                    <div class='row'>
+                        <div class='col-xs-12'>
+                            <img src='{{image_url}}' class='img-responsive img-circle event-user'>
+                            <div class='pull-left event-user-name'>
+                                {{name}}
+                            </div>
+                            <div class='pull-right'>
+                                <i class='fa fa-trash-o' style='font-size: 24px; line-height: 24px;'></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='panel-footer'>
+                    <div class='row'>
+                        <div class='col-xs-2'>
+                            <div class='pull-left'>
+                                <i class='fa fa-user-plus' style='line-height: 24px;'></i>
+                            </div>
+                        </div>
+                        <div class='col-xs-10'>
+                            <div class='pull-right' style='line-height: 24px;'>
+                                <button class='btn btn-xs btn-primary' style='width: 100%;'>
+                                    <i class='fa fa-magic'></i> Create Event
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </script>
 

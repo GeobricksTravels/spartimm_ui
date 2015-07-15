@@ -89,10 +89,12 @@ define(['jquery',
                 /* Store user id. */
                 var d = new Date();
                 d.setTime(d.getTime() + 180000);
-                document.cookie='user_id=' + json._id.$oid + '; expires=' + d.toUTCString() + ';';
+                document.cookie = 'user_id=' + json._id.$oid + ';' +
+                                  'name=' + user.name + ';' +
+                                  'image_url=' + user.image_url + ';';
 
                 /* Re-route the application. */
-                Backbone.history.navigate('/' + _this.CONFIG.lang + '/events/', {trigger: false});
+                Backbone.history.navigate('/' + _this.CONFIG.lang + '/events/', {trigger: true});
 
             },
 

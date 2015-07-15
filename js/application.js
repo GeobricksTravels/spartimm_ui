@@ -1,11 +1,12 @@
 define(['jquery',
         'handlebars',
+        'backbone',
         'text!application/html/templates.hbs',
         'i18n!application/nls/translate',
         'AUTH',
         'ROUTER',
         'amplify',
-        'domReady!'], function($, Handlebars, templates, translate, AUTH, ROUTER) {
+        'domReady!'], function($, Handlebars, Backbone, templates, translate, AUTH, ROUTER) {
 
     'use strict';
 
@@ -24,6 +25,9 @@ define(['jquery',
 
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
+
+        /* Clean interface. */
+        $('#' + this.CONFIG.placeholder_id).html('');
 
         /* Initiate the routing. */
         var router = new ROUTER();

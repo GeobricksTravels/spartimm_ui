@@ -38,22 +38,6 @@ define(['jquery',
                 '(/):lang(/)'                           :   'home',
                 '(/):lang(/)events(/)'                  :   'events',
                 '(/):lang(/)activities(/):event_id(/)'  :   'activities'
-            },
-
-            /* Overwrite language settings. */
-            init_language: function (lang) {
-
-                /* Initiate language. */
-                lang = (lang !== null) ? lang : 'en';
-                require.config({'locale': lang});
-                var locale = localStorage.getItem('locale');
-                localStorage.setItem('locale', lang);
-                if (locale !== lang) {
-                    localStorage.setItem('locale', lang);
-                    location.reload();
-                }
-                _this.CONFIG.lang = lang;
-
             }
 
         });
@@ -68,7 +52,7 @@ define(['jquery',
             lang = lang != null ? lang : 'en';
 
             /* Setup language. */
-            this.init_language(lang);
+            _this.init_language(lang);
 
             /* Initiate authorization. */
             var auth = new AUTH();
@@ -87,7 +71,7 @@ define(['jquery',
             lang = lang != null ? lang : _this.CONFIG.lang;
 
             /* Setup language. */
-            this.init_language(lang);
+            _this.init_language(lang);
 
             /* Display events. */
             new Event().fetch({
@@ -106,7 +90,7 @@ define(['jquery',
             lang = lang != null ? lang : _this.CONFIG.lang;
 
             /* Setup language. */
-            this.init_language(lang);
+            _this.init_language(lang);
 
             /* Display events. */
             new Activity({event_id: event_id}).fetch({
@@ -125,6 +109,18 @@ define(['jquery',
         /* Initiate Backbone history. */
         Backbone.history.start();
 
+    };
+
+    ROUTER.prototype.init_language = function(lang) {
+        lang = (lang !== null) ? lang : 'en';
+        require.config({'locale': lang});
+        var locale = localStorage.getItem('locale');
+        localStorage.setItem('locale', lang);
+        if (locale !== lang) {
+            localStorage.setItem('locale', lang);
+            location.reload();
+        }
+        this.CONFIG.lang = lang;
     };
 
     return ROUTER;

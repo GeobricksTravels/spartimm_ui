@@ -26,7 +26,7 @@ define(function (require) {
                 activities_label: translate.activities_label
             };
             var html = template(dynamic_data);
-            this.$el.append(html);
+            $('#header').append(html);
 
             /* make the header sticky. */
             $('#activity_header').affix({
