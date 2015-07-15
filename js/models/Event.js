@@ -13,12 +13,11 @@ define(function (require) {
             },
 
             defaults: {
-                _id: null,
                 date_last_update: null,
                 users: [],
                 name: null,
-                status: null,
-                total: null
+                status: true,
+                total: 0
             },
 
             validate: function (attrs) {

@@ -30,6 +30,7 @@ define(['jquery',
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
         /* Check whether the user is already logged in. */
+        console.log(document.cookie);
         if (document.cookie.indexOf('user_id') < 0) {
 
             /* This... */
@@ -87,11 +88,9 @@ define(['jquery',
                     json = $.parseJSON(response);
 
                 /* Store user id. */
-                var d = new Date();
-                d.setTime(d.getTime() + 180000);
-                document.cookie = 'user_id=' + json._id.$oid + ';' +
-                                  'name=' + user.name + ';' +
-                                  'image_url=' + user.image_url + ';';
+                document.cookie = 'name=' + user.name + ';';
+                document.cookie = 'user_id=' + json._id.$oid + ';';
+                document.cookie = 'image_url=' + user.image_url + ';';
 
                 /* Re-route the application. */
                 Backbone.history.navigate('/' + _this.CONFIG.lang + '/events/', {trigger: true});

@@ -113,14 +113,18 @@ define(['jquery',
 
     ROUTER.prototype.init_language = function(lang) {
         lang = (lang !== null) ? lang : 'en';
-        require.config({'locale': lang});
-        var locale = localStorage.getItem('locale');
-        localStorage.setItem('locale', lang);
-        if (locale !== lang) {
-            localStorage.setItem('locale', lang);
-            location.reload();
-        }
         this.CONFIG.lang = lang;
+        try {
+            require.config({'locale': lang});
+            var locale = localStorage.getItem('locale');
+            localStorage.setItem('locale', lang);
+            if (locale !== lang) {
+                localStorage.setItem('locale', lang);
+                location.reload();
+            }
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     return ROUTER;
