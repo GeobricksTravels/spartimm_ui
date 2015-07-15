@@ -189,10 +189,12 @@ define(['jquery',
                                 'userId': 'me'
                             });
                             request.execute(function(googleUser) {
+                                var email;
+                                try { email = googleUser.emails[0].value; } catch (e) {}
                                 var user = {
                                     user_id: googleUser.id,
                                     name: googleUser.displayName,
-                                    email: googleUser.emails[0].value,
+                                    email: email,
                                     image_url: googleUser.image.url
                                 };
                                 _this.create_user(user);

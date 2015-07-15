@@ -1,3 +1,6 @@
+.main-page {
+  background: url("../images/tile.jpg") repeat; }
+
 .avatar {
   width: 64px;
   height: 64px;
