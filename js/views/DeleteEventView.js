@@ -13,7 +13,7 @@ define(function (require) {
     return Backbone.View.extend({
 
         events: {
-            'click #create_event_button': 'create_event',
+            'click #delete_events_button': 'create_event',
             'click #go_back_to_events_button': 'go_back_to_events'
         },
 
@@ -26,12 +26,18 @@ define(function (require) {
             var name = this.get_cookie('name');
             var image_url = this.get_cookie('image_url');
 
+            /* Prepare data for Handlebars. */
+            var events = [];
+            for (var key in Object.keys(this.model)) {
+                if (this.model[key] != undefined)
+                    events.push(this.model[key]);
+            }
+
             /* Load template. */
-            var source = $(templates).filter('#event_structure_edit').html();
+            var source = $(templates).filter('#delete_event_structure').html();
             var template = Handlebars.compile(source);
             var dynamic_data = {
-                name: name,
-                image_url: image_url
+                events: events
             };
             var html = template(dynamic_data);
             this.$el.find('[data-role="content"]').html(html);
@@ -76,10 +82,10 @@ define(function (require) {
         create_header: function() {
 
             /* Load header. */
-            var source = $(templates).filter('#create_event_header').html();
+            var source = $(templates).filter('#delete_event_header').html();
             var template = Handlebars.compile(source);
             var dynamic_data = {
-                create_event_label: translate.create_event_label
+                delete_event_label: translate.delete_event_label
             };
             var html = template(dynamic_data);
             this.$el.find('[data-role="header"]').html(html);

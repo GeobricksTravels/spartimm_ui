@@ -14,7 +14,8 @@ define(function (require) {
     return Backbone.View.extend({
 
         events: {
-            'click #add_event_button': 'show_create_event_form'
+            'click #delete_events_button'   :   'show_delete_events',
+            'click #add_event_button'       :   'show_create_event_form'
         },
 
         render: function() {
@@ -50,6 +51,10 @@ define(function (require) {
 
         show_create_event_form: function() {
             Backbone.history.navigate('/en/events/create/', {trigger: true});
+        },
+
+        show_delete_events: function() {
+            Backbone.history.navigate('/en/events/delete/', {trigger: true});
         },
 
         get_cookie: function(key) {

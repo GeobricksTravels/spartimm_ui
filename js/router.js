@@ -6,7 +6,9 @@ define(['jquery',
         'models/Activity',
         'views/ActivityView',
         'views/CreateEventView',
-        'domReady!'], function($, Backbone, AUTH, Event, EventView, Activity, ActivityView, CreateEventView) {
+        'views/DeleteEventView',
+        'domReady!'], function($, Backbone, AUTH, Event, EventView, Activity, ActivityView,
+                               CreateEventView, DeleteEventView) {
 
     'use strict';
 
@@ -38,8 +40,9 @@ define(['jquery',
                 ''                                      :   'home',
                 '(/):lang(/)'                           :   'home',
                 '(/):lang(/)events(/)'                  :   'events',
+                '(/):lang(/)activities(/):event_id(/)'  :   'activities',
                 '(/):lang(/)events(/)create(/)'         :   'create_event',
-                '(/):lang(/)activities(/):event_id(/)'  :   'activities'
+                '(/):lang(/)events(/)delete(/)'         :   'delete_event'
             }
 
         });
@@ -84,6 +87,22 @@ define(['jquery',
                 el: $('#' + _this.CONFIG.placeholder_id)
             });
             view.render();
+
+        });
+
+        /* Delete an event. */
+        app_router.on('route:delete_event', function (lang) {
+
+            /* Delete events. */
+            new Event().fetch({
+                success: function (data) {
+                    var view = new DeleteEventView({
+                        model: data.toJSON(),
+                        el: $('#placeholder')
+                    });
+                    view.render();
+                }
+            });
 
         });
 

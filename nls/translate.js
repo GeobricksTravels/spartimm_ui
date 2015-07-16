@@ -8,7 +8,8 @@ define({
         ongoing_label: 'ongoing',
         finished_label: 'finished',
         activities_label: 'Activities',
-        create_event_label: 'Create New Event'
+        create_event_label: 'Create New Event',
+        delete_event_label: 'Delete Selected Events'
     },
     es : true,
     it : true
