@@ -77,10 +77,6 @@ define(function (require) {
             var html = template(dynamic_data);
             this.$el.html(html);
 
-            //$('#create_event_button').click(function(e) {
-            //    _this.create_event();
-            //});
-
         },
 
         create_event: function(e) {

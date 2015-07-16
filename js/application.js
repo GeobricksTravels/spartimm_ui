@@ -26,8 +26,12 @@ define(['jquery',
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
-        /* Clean interface. */
-        $('#' + this.CONFIG.placeholder_id).html('');
+        /* Load main structure. */
+        var source = $(templates).filter('#structure').html();
+        var template = Handlebars.compile(source);
+        var dynamic_data = {};
+        var html = template(dynamic_data);
+        $('#' + this.CONFIG.placeholder_id).html(html);
 
         /* Initiate the routing. */
         var router = new ROUTER();

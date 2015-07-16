@@ -29,22 +29,34 @@ define(['jquery',
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
+        /* Save UI components. */
+        this.CONFIG.root = $('#' + this.CONFIG.placeholder_id)
+        this.CONFIG.header = this.CONFIG.root.find('[data-role="header"]');
+        this.CONFIG.content = this.CONFIG.root.find('[data-role="content"]');
+        this.CONFIG.footer = this.CONFIG.root.find('[data-role="footer"]');
+
         /* Check whether the user is already logged in. */
-        console.log(document.cookie);
         if (document.cookie.indexOf('user_id') < 0) {
 
             /* This... */
             var _this = this;
 
+            /* Load sign-in header. */
+            this.CONFIG.source = $(templates).filter('#login_header').html();
+            this.CONFIG.template = Handlebars.compile(this.CONFIG.source);
+            this.CONFIG.dynamic_data = {};
+            this.CONFIG.html = this.CONFIG.template(this.CONFIG.dynamic_data);
+            this.CONFIG.header.html(this.CONFIG.html);
+
             /* Load sign-in page. */
-            var source = $(templates).filter('#login_structure').html();
-            var template = Handlebars.compile(source);
-            var dynamic_data = {
+            this.CONFIG.source = $(templates).filter('#login_footer').html();
+            this.CONFIG.template = Handlebars.compile(this.CONFIG.source);
+            this.CONFIG.dynamic_data = {
                 facebook_login_label: translate.facebook_login_label,
                 google_login_label: translate.google_login_label
             };
-            var html = template(dynamic_data);
-            $('#' + this.CONFIG.placeholder_id).html(html);
+            this.CONFIG.html = this.CONFIG.template(this.CONFIG.dynamic_data);
+            this.CONFIG.footer.html(this.CONFIG.html);
 
             /* Load Google sign-in. */
             this.google();
