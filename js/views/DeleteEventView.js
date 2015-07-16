@@ -13,7 +13,7 @@ define(function (require) {
     return Backbone.View.extend({
 
         events: {
-            'click #delete_events_button': 'create_event',
+            'click #delete_events_button': 'delete_event',
             'click #go_back_to_events_button': 'go_back_to_events'
         },
 
@@ -41,32 +41,6 @@ define(function (require) {
             };
             var html = template(dynamic_data);
             this.$el.find('[data-role="content"]').html(html);
-
-        },
-
-        create_event: function(e) {
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            /* Create the event. */
-            var event = new Event({
-                name: $('#create_event_name').val(),
-                users: [
-                    {
-                        user_id: this.get_cookie('user_id'),
-                        name: this.get_cookie('name'),
-                        image_url: this.get_cookie('image_url')
-                    }
-                ]
-            }).save(null, {
-                    success: function(model, response) {
-                        Backbone.history.navigate('/en/events/', {trigger: true});
-                    },
-                    error: function(model, response) {
-
-                    }
-                });
 
         },
 
