@@ -29,8 +29,8 @@ define(['jquery',
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
-        /* Save UI components. */
-        this.CONFIG.root = $('#' + this.CONFIG.placeholder_id)
+        /* Store UI components. */
+        this.CONFIG.root = $('#' + this.CONFIG.placeholder_id);
         this.CONFIG.header = this.CONFIG.root.find('[data-role="header"]');
         this.CONFIG.content = this.CONFIG.root.find('[data-role="content"]');
         this.CONFIG.footer = this.CONFIG.root.find('[data-role="footer"]');

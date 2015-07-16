@@ -12,11 +12,11 @@ define(function (require) {
 
     return Backbone.View.extend({
 
-        tagName: 'div',
-
-        className: 'item-wrap',
-
-        template: $(templates).filter('#event_structure').html(),
+        //tagName: 'div',
+        //
+        //className: 'item-wrap',
+        //
+        //template: $(templates).filter('#event_structure').html(),
 
         events: {
             'click #create_event_button': 'create_event'
@@ -42,7 +42,7 @@ define(function (require) {
                     events.push(this.model[key]);
             }
 
-            /* Load sign-in page. */
+            /* Render events. */
             var source = $(templates).filter('#event_structure').html();
             var template = Handlebars.compile(source);
             var dynamic_data = {
@@ -51,7 +51,7 @@ define(function (require) {
                 finished_label: translate.finished_label
             };
             var html = template(dynamic_data);
-            this.$el.append(html);
+            this.$el.find('[data-role="content"]').html(html);
 
             /* Return... */
             return this;
@@ -75,7 +75,7 @@ define(function (require) {
                 image_url: image_url
             };
             var html = template(dynamic_data);
-            this.$el.html(html);
+            this.$el.find('[data-role="content"]').html(html);
 
         },
 
@@ -112,9 +112,6 @@ define(function (require) {
 
         create_header: function() {
 
-            /* Clean interface. */
-            this.$el.html('');
-
             /* Load header. */
             var source = $(templates).filter('#event_header').html();
             var template = Handlebars.compile(source);
@@ -122,7 +119,7 @@ define(function (require) {
                 events_label: translate.events_label
             };
             var html = template(dynamic_data);
-            $('#header').append(html);
+            this.$el.find('[data-role="header"]').html(html);
 
             /* make the header sticky. */
             $('#event_header').affix({
