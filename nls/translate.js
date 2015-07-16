@@ -7,7 +7,8 @@ define({
         events_label: 'Events',
         ongoing_label: 'ongoing',
         finished_label: 'finished',
-        activities_label: 'Activities'
+        activities_label: 'Activities',
+        create_event_label: 'Create New Event'
     },
     es : true,
     it : true

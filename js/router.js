@@ -5,7 +5,8 @@ define(['jquery',
         'views/EventView',
         'models/Activity',
         'views/ActivityView',
-        'domReady!'], function($, Backbone, AUTH, Event, EventView, Activity, ActivityView) {
+        'views/CreateEventView',
+        'domReady!'], function($, Backbone, AUTH, Event, EventView, Activity, ActivityView, CreateEventView) {
 
     'use strict';
 
@@ -37,6 +38,7 @@ define(['jquery',
                 ''                                      :   'home',
                 '(/):lang(/)'                           :   'home',
                 '(/):lang(/)events(/)'                  :   'events',
+                '(/):lang(/)events(/)create(/)'         :   'create_event',
                 '(/):lang(/)activities(/):event_id(/)'  :   'activities'
             }
 
@@ -47,12 +49,6 @@ define(['jquery',
 
         /* Root URL. */
         app_router.on('route:home', function (lang) {
-
-            /* Set default language. */
-            lang = lang != null ? lang : 'en';
-
-            /* Setup language. */
-            _this.init_language(lang);
 
             /* Initiate authorization. */
             var auth = new AUTH();
@@ -67,30 +63,32 @@ define(['jquery',
         /* Events. */
         app_router.on('route:events', function (lang) {
 
-            /* Set default language. */
-            lang = lang != null ? lang : _this.CONFIG.lang;
-
-            /* Setup language. */
-            _this.init_language(lang);
-
             /* Display events. */
             new Event().fetch({
                 success: function (data) {
-                    var view = new EventView({model: data.toJSON(), el: $('#placeholder')});
+                    var view = new EventView({
+                        model: data.toJSON(),
+                        el: $('#placeholder')
+                    });
                     view.render();
                 }
             });
 
         });
 
+        /* Create a new event. */
+        app_router.on('route:create_event', function (lang) {
+
+            /* Display event form. */
+            var view = new CreateEventView({
+                el: $('#' + _this.CONFIG.placeholder_id)
+            });
+            view.render();
+
+        });
+
         /* Activities. */
         app_router.on('route:activities', function (lang, event_id) {
-
-            /* Set default language. */
-            lang = lang != null ? lang : _this.CONFIG.lang;
-
-            /* Setup language. */
-            _this.init_language(lang);
 
             /* Display events. */
             new Activity({event_id: event_id}).fetch({

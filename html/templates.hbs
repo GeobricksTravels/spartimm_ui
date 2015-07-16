@@ -27,6 +27,24 @@
     <div style='margin-top: 50px;'></div>
 </script>
 
+<script type='text/x-handlebars-template' id='create_event_header'>
+    <div class='events-header affix'>
+        <div class='row'>
+            <div class='col-xs-2'>
+                <div class='pull-left'>
+                    <i class='fa fa-arrow-circle-left' id='go_back_to_events_button'></i>
+                </div>
+            </div>
+            <div class='col-xs-8'>
+                <div class='text-center'>
+                    {{create_event_label}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style='margin-top: 50px;'></div>
+</script>
+
 <script type='text/x-handlebars-template' id='event_structure'>
     <div class='container'>
         {{#each events}}
