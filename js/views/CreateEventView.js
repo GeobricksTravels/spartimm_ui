@@ -19,9 +19,6 @@ define(function (require) {
 
         render: function() {
 
-            /* This... */
-            var _this = this;
-
             /* Load header. */
             this.create_header();
 
@@ -41,12 +38,41 @@ define(function (require) {
 
         },
 
+        create_event: function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            /* Create the event. */
+            var event = new Event({
+                name: $('#create_event_name').val(),
+                users: [
+                    {
+                        user_id: this.get_cookie('user_id'),
+                        name: this.get_cookie('name'),
+                        image_url: this.get_cookie('image_url')
+                    }
+                ]
+            }).save(null, {
+                    success: function(model, response) {
+                        console.log(response);
+                        Backbone.history.navigate('/en/events/', {trigger: true});
+                    },
+                    error: function(model, response) {
+                        console.log(model);
+                        console.log(response);
+                    }
+                });
+
+        },
+
         go_back_to_events: function() {
             Backbone.history.navigate('/en/events/', {trigger: true});
         },
 
         get_cookie: function(key) {
-            return document.cookie.substring((key + '=').length + document.cookie.indexOf(key), document.cookie.indexOf(';', document.cookie.indexOf(key)))
+            return document.cookie.substring((key + '=').length + document.cookie.indexOf(key),
+                                             document.cookie.indexOf(';', document.cookie.indexOf(key)))
         },
 
         create_header: function() {
